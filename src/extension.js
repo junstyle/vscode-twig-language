@@ -35,8 +35,8 @@ function prettyDiff(document, range) {
 
     options.source = document.getText(range);
     options.mode = 'beautify';
-    options.language = 'html';
-    options.lexer = 'markup';
+    // options.language = 'html';
+    // options.lexer = 'markup';
     options.brace_line = config.braceLine;
     options.brace_padding = config.bracePadding;
     options.brace_style = config.braceStyle;
@@ -77,7 +77,7 @@ function prettyDiff(document, range) {
 
     output = prettydiff();
 
-    output = output.replace(/\s+({{[\s\S]+?}})\s+/g, ' $1');
+    output = output.replace(/\s+(\{\{[\s\S]+?\}\})/g, ' $1');
     options.end = 0;
     options.start = 0;
 
