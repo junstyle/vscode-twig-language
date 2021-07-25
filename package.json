@@ -315,22 +315,12 @@
         "hoverProvider": "true"
     },
     "scripts": {
-        "start": "rollup -c",
-        "build": "rollup -c",
-        "watch": "rollup -c -w"
+        "vscode:prepublish": "npm update"
     },
     "devDependencies": {
-        "@types/mocha": "^8.0.3",
-        "@types/node": "^14.6.0",
-        "eslint": "^7.7.0",
-        "eslint-config-prettier": "^6.11.0",
-        "typescript": "^4.0.2",
-        "vscode": "^1.1.37"
+        "vscode-test": "^1.2.0"
     },
     "dependencies": {
-        "prettydiff": "^101.2.6",
-        "rollup": "^2.26.5",
-        "rollup-plugin-babel": "^4.4.0",
-        "rollup-plugin-json": "^4.0.0"
+        "prettydiff": "^101.2.6"
     }
 }
