@@ -5,14 +5,14 @@ import functionsArr from './hover/functions.json'
 import twigArr from './hover/twig.json'
 
 const editor = vscode.workspace.getConfiguration('editor');
-const config = vscode.workspace.getConfiguration('twig-language-2');
+const config = vscode.workspace.getConfiguration('twig-language');
 
 function createHover(snippet, type) {
     const example = typeof snippet.example == 'undefined' ? '' : snippet.example
     const description = typeof snippet.description == 'undefined' ? '' : snippet.description
     return new vscode.Hover({
         language: type,
-        value: description + '\n\n' + example
+        value: description + '\n\n' + example,
     });
 }
 
@@ -35,54 +35,55 @@ function prettyDiff(document, range) {
 
     options.source = document.getText(range);
     options.mode = 'beautify';
-    options.language = 'html';
-    options.lexer = 'markup';
-    options.brace_line = config.braceLine;
-    options.brace_padding = config.bracePadding;
-    options.brace_style = config.braceStyle;
-    options.braces = config.braces;
-    options.comment_line = config.commentLine;
-    options.comments = config.comments;
-    options.compressed_css = config.compressedCss;
-    options.correct = config.correct;
-    options.cssInsertLines = config.cssInsertLines;
-    options.else_line = config.elseLine;
-    options.end_comma = config.endComma;
-    options.force_attribute = config.forceAttribute;
-    options.force_indent = config.forceIndent;
-    options.format_array = config.formatArray;
-    options.format_object = config.formatObject;
-    options.function_name = config.functionName;
-    options.indent_level = config.indentLevel;
-    options.indent_char = indentChar;
-    options.indent_size = tabSize;
-    options.method_chain = config.methodChain;
-    options.never_flatten = config.neverFlatten;
-    options.new_line = config.newLine;
-    options.no_case_indent = config.noCaseIndent;
-    options.no_lead_zero = config.noLeadZero;
-    options.object_sort = config.objectSort;
-    options.preserve = config.preserve;
-    options.preserve_comment = config.preserveComment;
-    options.quote_convert = config.quoteConvert;
-    options.space = config.space;
-    options.space_close = config.spaceSlose;
-    options.tag_merge = config.tagMerge;
-    options.tag_sort = config.tagSort;
-    options.ternary_line = config.ternaryLine;
-    options.unformatted = config.unformatted;
-    options.variable_list = config.variableList;
-    options.vertical = config.vertical;
-    options.wrap = config.wrap;
+    // options.language = 'html';
+    // options.lexer = 'markup';
+    // options.brace_line = config.braceLine;
+    // options.brace_padding = config.bracePadding;
+    // options.brace_style = config.braceStyle;
+    // options.braces = config.braces;
+    // options.comment_line = config.commentLine;
+    // options.comments = config.comments;
+    // options.compressed_css = config.compressedCss;
+    // options.correct = config.correct;
+    // options.cssInsertLines = config.cssInsertLines;
+    // options.else_line = config.elseLine;
+    // options.end_comma = config.endComma;
+    // options.force_attribute = config.forceAttribute;
+    // options.force_indent = config.forceIndent;
+    // options.format_array = config.formatArray;
+    // options.format_object = config.formatObject;
+    // options.function_name = config.functionName;
+    // options.indent_level = config.indentLevel;
+    // options.indent_char = indentChar;
+    // options.indent_size = tabSize;
+    // options.method_chain = config.methodChain;
+    // options.never_flatten = config.neverFlatten;
+    // options.new_line = config.newLine;
+    // options.no_case_indent = config.noCaseIndent;
+    // options.no_lead_zero = config.noLeadZero;
+    // options.object_sort = config.objectSort;
+    // options.preserve = config.preserve;
+    // options.preserve_comment = config.preserveComment;
+    // options.quote_convert = config.quoteConvert;
+    // options.space = config.space;
+    // options.space_close = config.spaceSlose;
+    // options.tag_merge = config.tagMerge;
+    // options.tag_sort = config.tagSort;
+    // options.ternary_line = config.ternaryLine;
+    // options.unformatted = config.unformatted;
+    // options.variable_list = config.variableList;
+    // options.vertical = config.vertical;
+    // options.wrap = config.wrap;
 
     output = prettydiff();
 
+    output = output.replace(/\s+({{[\s\S]+?}})\s+/g, ' $1');
     options.end = 0;
     options.start = 0;
 
     result.push(vscode.TextEdit.replace(range, output));
     return result;
-};
+}
 
 function activate(context) {
     const active = vscode.window.activeTextEditor
@@ -114,7 +115,7 @@ function activate(context) {
                             return createHover(twigArr[snippet], type)
                         }
                     }
-                }
+                },
             }));
         }
 
@@ -127,7 +128,7 @@ function activate(context) {
 
                     const rng = new vscode.Range(start, end)
                     return prettyDiff(document, rng);
-                }
+                },
             }));
 
             context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(type, {
@@ -142,7 +143,7 @@ function activate(context) {
 
                     const rng = new vscode.Range(new vscode.Position(range.start.line, 0), end)
                     return prettyDiff(document, rng);
-                }
+                },
             }));
         }
     }

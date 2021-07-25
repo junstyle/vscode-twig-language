@@ -15,14 +15,14 @@ const attribute={prefix:"attribute",body:"{{ attribute($1) }}$2",description:"Th
 const show={prefix:"show",body:"{{ $1 }}",description:"{{ }}"};const execute={prefix:"execute",body:"{% $1 %}",description:"{% %}"};const autoescape={prefix:"autoescape",body:["{% autoescape %}","\t$1","{% endautoescape %}"],description:"Whether automatic escaping is enabled or not, you can mark a section of a template to be escaped or not by using the autoescape tag",example:"{% autoescape %}\n    Everything will be automatically escaped in this block\n    using the HTML strategy\n{% endautoescape %}\n\n{% autoescape 'html' %}\n    Everything will be automatically escaped in this block\n    using the HTML strategy\n{% endautoescape %}\n\n{% autoescape 'js' %}\n    Everything will be automatically escaped in this block\n    using the js escaping strategy\n{% endautoescape %}\n\n{% autoescape false %}\n    Everything will be outputted as is in this block\n{% endautoescape %}"};const block$1={prefix:"block",body:["{% block ${name} %}","\t$1","{% endblock ${name} %}"],description:"When a template uses inheritance and if you want to print a block multiple times, use the block function"};const embed={prefix:"embed",body:["{% embed \"${filename}.twig\" %}","\t$1","{% endembed  %}"],description:"The embed tag combines the behaviour of include and extends. It allows you to include another template's contents, just like include does. But it also allows you to override any block defined inside the included template, like when extending a template"};const filter={prefix:"filter",body:["{% filter ${filter name} %}","\t$1","{% endfilter  %}"],description:"Filter sections allow you to apply regular Twig filters on a block of template data. Just wrap the code in the special filter section",example:"{% filter lower | escape %}\n    <strong>SOME TEXT</strong>\n{% endfilter %}\n\n{# outputs \"&lt;strong&gt;some text&lt;/strong&gt;\" #}"};const flush={prefix:"flush",body:["{% flush %}"],description:"The flush tag tells Twig to flush the output buffer",example:"{% flush %}"};const loop={prefix:"loop",body:"loop.",description:"special variables inside of a for loop block"};const _self={prefix:"_self",body:"_self",description:"To import macros from the current file, use the special _self variable for the source"};const include$1={prefix:"include",body:"{% include \"${filename}.twig\" %}",description:"The include statement includes a template and returns the rendered content of that file into the current namespace"};const macro={prefix:"macro",body:["{% macro ${name}($1) %}","\t$2","{% endmacro %}"],description:"Twig snippets"};const sandbox={prefix:"sandbox",body:["{% sandbox %}","\t$1","{% endsandbox %}"],description:"The sandbox tag can be used to enable the sandboxing mode for an included template, when sandboxing is not enabled globally for the Twig environment"};const set={prefix:"set",body:["{% set ${name} = ${value} %}$1"],description:"Assign values to variables"};const spaceless={prefix:"spaceless",body:["{% spaceless %}","\t$1","{% endspaceless %}"],description:"Use the spaceless tag to remove whitespace between HTML tags, not whitespace within HTML tags or whitespace in plain text"};const use={prefix:"use",body:"{% use \"${filename}.twig\" %}",description:"Twig snippets"};const verbatim={prefix:"verbatim",body:["{% verbatim %}","\t$1","{% endverbatim %}"],description:"The verbatim tag marks sections as being raw text that should not be parsed. For example to put Twig syntax as example into a template you can use this snippet"};var twigArr = {show:show,execute:execute,autoescape:autoescape,block:block$1,"do": {prefix:"do",body:["{% do $1 %}"],description:"The do tag works exactly like the regular variable expression ({{ ... }}) just that it doesn't print anything",example:"{% do 1 + 2 %}"},embed:embed,"extends": {prefix:"extends",body:"{% extends \"${filename}.twig\" %}",description:"Twig snippets"},filter:filter,flush:flush,"for": {prefix:"for",body:["{% for ${row} in ${array} %}","\t$1","{% endfor %}"],description:"Loop over each item in a sequence"},"for if": {prefix:"for if",body:["{% for ${row} in ${array} if ${condition} %}","\t$1","{% endfor %}"],description:"Loop over each item in a sequence"},"for else": {prefix:"for else",body:["{% for ${row} in ${array} %}","\t$1","{% else %}","\t$2","{% endfor %}"],description:"Loop over each item in a sequence"},"for if else": {prefix:"for if else",body:["{% for ${row} in ${array} if ${condition} %}","\t$1","{% else %}","\t$2","{% endfor %}"],description:"Loop over each item in a sequence"},loop:loop,"if": {prefix:"if",body:["{% if ${condition} %}","\t$1","{% endif %}"],description:"The if statement in Twig is comparable with the if statements of PHP"},"if else": {prefix:"if else",body:["{% if ${condition} %}","\t$1","{% else %}","\t$2","{% endif %}"],description:"The if statement in Twig is comparable with the if statements of PHP"},"else": {prefix:"else",body:"{% else %}",description:"The if statement in Twig is comparable with the if statements of PHP"},"else if": {prefix:"else if",body:"{% elseif ${condition} %}",description:"The if statement in Twig is comparable with the if statements of PHP"},"import": {prefix:"import",body:"{% import \"${filename}.twig\" as ${alias}%}",description:"Twig supports putting often used code into macros. These macros can go into different templates and get imported from there."},_self:_self,include:include$1,macro:macro,sandbox:sandbox,set:set,"set block": {prefix:"set (block)",body:["{% set ${name} %}","\t$1","{% endset %}"],description:"Inside code blocks you can also assign values to variables. Assignments use the set tag and can have multiple targets"},spaceless:spaceless,use:use,verbatim:verbatim};
 
 const editor = vscode__default['default'].workspace.getConfiguration('editor');
-const config = vscode__default['default'].workspace.getConfiguration('twig-language-2');
+const config = vscode__default['default'].workspace.getConfiguration('twig-language');
 
 function createHover(snippet, type) {
     const example = typeof snippet.example == 'undefined' ? '' : snippet.example;
     const description = typeof snippet.description == 'undefined' ? '' : snippet.description;
     return new vscode__default['default'].Hover({
         language: type,
-        value: description + '\n\n' + example
+        value: description + '\n\n' + example,
     });
 }
 
@@ -32,7 +32,6 @@ function prettyDiff(document, range) {
     let options = prettydiff__default['default'].options;
 
     let tabSize = editor.tabSize;
-    let indentChar = " ";
 
     if (config.tabSize > 0) {
         tabSize = config.tabSize;
@@ -40,50 +39,49 @@ function prettyDiff(document, range) {
 
     if (config.indentStyle == "tab") {
         tabSize = 0;
-        indentChar = "\t";
     }
 
     options.source = document.getText(range);
     options.mode = 'beautify';
-    options.language = 'html';
-    options.lexer = 'markup';
-    options.brace_line = config.braceLine;
-    options.brace_padding = config.bracePadding;
-    options.brace_style = config.braceStyle;
-    options.braces = config.braces;
-    options.comment_line = config.commentLine;
-    options.comments = config.comments;
-    options.compressed_css = config.compressedCss;
-    options.correct = config.correct;
-    options.cssInsertLines = config.cssInsertLines;
-    options.else_line = config.elseLine;
-    options.end_comma = config.endComma;
-    options.force_attribute = config.forceAttribute;
-    options.force_indent = config.forceIndent;
-    options.format_array = config.formatArray;
-    options.format_object = config.formatObject;
-    options.function_name = config.functionName;
-    options.indent_level = config.indentLevel;
-    options.indent_char = indentChar;
-    options.indent_size = tabSize;
-    options.method_chain = config.methodChain;
-    options.never_flatten = config.neverFlatten;
-    options.new_line = config.newLine;
-    options.no_case_indent = config.noCaseIndent;
-    options.no_lead_zero = config.noLeadZero;
-    options.object_sort = config.objectSort;
-    options.preserve = config.preserve;
-    options.preserve_comment = config.preserveComment;
-    options.quote_convert = config.quoteConvert;
-    options.space = config.space;
-    options.space_close = config.spaceSlose;
-    options.tag_merge = config.tagMerge;
-    options.tag_sort = config.tagSort;
-    options.ternary_line = config.ternaryLine;
-    options.unformatted = config.unformatted;
-    options.variable_list = config.variableList;
-    options.vertical = config.vertical;
-    options.wrap = config.wrap;
+    // options.language = 'html';
+    // options.lexer = 'markup';
+    // options.brace_line = config.braceLine;
+    // options.brace_padding = config.bracePadding;
+    // options.brace_style = config.braceStyle;
+    // options.braces = config.braces;
+    // options.comment_line = config.commentLine;
+    // options.comments = config.comments;
+    // options.compressed_css = config.compressedCss;
+    // options.correct = config.correct;
+    // options.cssInsertLines = config.cssInsertLines;
+    // options.else_line = config.elseLine;
+    // options.end_comma = config.endComma;
+    // options.force_attribute = config.forceAttribute;
+    // options.force_indent = config.forceIndent;
+    // options.format_array = config.formatArray;
+    // options.format_object = config.formatObject;
+    // options.function_name = config.functionName;
+    // options.indent_level = config.indentLevel;
+    // options.indent_char = indentChar;
+    // options.indent_size = tabSize;
+    // options.method_chain = config.methodChain;
+    // options.never_flatten = config.neverFlatten;
+    // options.new_line = config.newLine;
+    // options.no_case_indent = config.noCaseIndent;
+    // options.no_lead_zero = config.noLeadZero;
+    // options.object_sort = config.objectSort;
+    // options.preserve = config.preserve;
+    // options.preserve_comment = config.preserveComment;
+    // options.quote_convert = config.quoteConvert;
+    // options.space = config.space;
+    // options.space_close = config.spaceSlose;
+    // options.tag_merge = config.tagMerge;
+    // options.tag_sort = config.tagSort;
+    // options.ternary_line = config.ternaryLine;
+    // options.unformatted = config.unformatted;
+    // options.variable_list = config.variableList;
+    // options.vertical = config.vertical;
+    // options.wrap = config.wrap;
 
     output = prettydiff__default['default']();
 
@@ -93,6 +91,7 @@ function prettyDiff(document, range) {
     result.push(vscode__default['default'].TextEdit.replace(range, output));
     return result;
 }
+
 function activate(context) {
     const active = vscode__default['default'].window.activeTextEditor;
     if (!active || !active.document) return
@@ -123,7 +122,7 @@ function activate(context) {
                             return createHover(twigArr[snippet], type)
                         }
                     }
-                }
+                },
             }));
         }
 
@@ -136,7 +135,7 @@ function activate(context) {
 
                     const rng = new vscode__default['default'].Range(start, end);
                     return prettyDiff(document, rng);
-                }
+                },
             }));
 
             context.subscriptions.push(vscode__default['default'].languages.registerDocumentRangeFormattingEditProvider(type, {
@@ -151,7 +150,7 @@ function activate(context) {
 
                     const rng = new vscode__default['default'].Range(new vscode__default['default'].Position(range.start.line, 0), end);
                     return prettyDiff(document, rng);
-                }
+                },
             }));
         }
     }
