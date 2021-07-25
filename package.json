@@ -38,7 +38,7 @@
     "activationEvents": [
         "onLanguage:twig"
     ],
-    "main": "./src/extension",
+    "main": "./extension/index",
     "contributes": {
         "languages": [
             {
@@ -315,10 +315,16 @@
         "hoverProvider": "true"
     },
     "scripts": {
-        "vscode:prepublish": "npm update"
+        "vscode:prepublish": "npm update",
+        "start": "rollup -c",
+        "build": "rollup -c",
+        "watch": "rollup -c -w"
     },
     "devDependencies": {
-        "vscode-test": "^1.2.0"
+        "vscode-test": "^1.2.0",
+        "rollup-plugin-json": "^4.0.0",
+        "rollup-plugin-babel": "^4.4.0",
+        "rollup": "^2.26.5"
     },
     "dependencies": {
         "prettydiff": "^101.2.6"
