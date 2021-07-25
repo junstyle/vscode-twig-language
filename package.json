@@ -2,7 +2,7 @@
     "name": "twig-language",
     "displayName": "Twig Language",
     "description": "Snippets, Syntax Highlighting, Hover, and Formatting for Twig",
-    "version": "0.9.4",
+    "version": "0.9.5",
     "publisher": "junstyle",
     "license": "MIT",
     "author": {
@@ -16,7 +16,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/junstyle/vscode-twig-language-2.git"
+        "url": "https://github.com/junstyle/vscode-twig-language.git"
     },
     "icon": "images/icon.png",
     "engines": {
@@ -76,29 +76,29 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "Twig Language 2",
+            "title": "Twig Language",
             "properties": {
-                "twig-language-2.hover": {
+                "twig-language.hover": {
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable/disable Twig hover."
                 },
-                "twig-language-2.formatting": {
+                "twig-language.formatting": {
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable/disable Twig PrettyDiff formatting."
                 },
-                "twig-language-2.braceLine": {
+                "twig-language.braceLine": {
                     "type": "boolean",
                     "default": false,
                     "description": "If true an empty line will be inserted after opening curly braces and before closing curly braces."
                 },
-                "twig-language-2.bracePadding": {
+                "twig-language.bracePadding": {
                     "type": "boolean",
                     "default": false,
                     "description": "Inserts a space after the start of a container and before the end of the container if the contents of that container are not indented; such as: conditions, function arguments, and escaped sequences of template strings."
                 },
-                "twig-language-2.braceStyle": {
+                "twig-language.braceStyle": {
                     "type": "string",
                     "enum": [
                         "collapse",
@@ -109,42 +109,42 @@
                     "default": "none",
                     "description": "Emulates JSBeautify's brace_style option using existing Pretty Diff options."
                 },
-                "twig-language-2.braces": {
+                "twig-language.braces": {
                     "type": "boolean",
                     "default": false,
                     "description": "Determines if opening curly braces will exist on the same line as their condition or be forced onto a new line."
                 },
-                "twig-language-2.commentLine": {
+                "twig-language.commentLine": {
                     "type": "boolean",
                     "default": false,
                     "description": "If a blank new line should be forced above comments."
                 },
-                "twig-language-2.comments": {
+                "twig-language.comments": {
                     "type": "boolean",
                     "default": false,
                     "description": "This will determine whether comments should always start at position 0 of each line or if comments should be indented according to the code."
                 },
-                "twig-language-2.compressedCss": {
+                "twig-language.compressedCss": {
                     "type": "boolean",
                     "default": false,
                     "description": "If CSS should be beautified in a style where the properties and values are minifed for faster reading of selectors."
                 },
-                "twig-language-2.correct": {
+                "twig-language.correct": {
                     "type": "boolean",
                     "default": false,
                     "description": "Automatically correct some sloppiness in code."
                 },
-                "twig-language-2.cssInsertLines": {
+                "twig-language.cssInsertLines": {
                     "type": "boolean",
                     "default": false,
                     "description": "Inserts new line characters between every CSS code block."
                 },
-                "twig-language-2.elseLine": {
+                "twig-language.elseLine": {
                     "type": "boolean",
                     "default": false,
                     "description": "If else_line is true then the keyword 'else' is forced onto a new line."
                 },
-                "twig-language-2.endComma": {
+                "twig-language.endComma": {
                     "type": "string",
                     "enum": [
                         "always",
@@ -154,17 +154,17 @@
                     "default": false,
                     "description": "If there should be a trailing comma in arrays and objects. Value multiline only applies to modes beautify and diff."
                 },
-                "twig-language-2.forceAttribute": {
+                "twig-language.forceAttribute": {
                     "type": "boolean",
                     "default": false,
                     "description": "If all markup attributes should be indented each onto their own line."
                 },
-                "twig-language-2.forceIndent": {
+                "twig-language.forceIndent": {
                     "type": "boolean",
                     "default": false,
                     "description": "Will force indentation upon all content and tags without regard for the creation of new text nodes."
                 },
-                "twig-language-2.formatArray": {
+                "twig-language.formatArray": {
                     "type": "string",
                     "enum": [
                         "default",
@@ -174,7 +174,7 @@
                     "default": "default",
                     "description": "Determines if all array indexes should be indented, never indented, or left to the default."
                 },
-                "twig-language-2.formatObject": {
+                "twig-language.formatObject": {
                     "type": "string",
                     "enum": [
                         "default",
@@ -184,12 +184,12 @@
                     "default": "default",
                     "description": "Determines if all object keys should be indented, never indented, or left to the default."
                 },
-                "twig-language-2.functionName": {
+                "twig-language.functionName": {
                     "type": "boolean",
                     "default": false,
                     "description": "If a space should follow a JavaScript function name."
                 },
-                "twig-language-2.indentStyle": {
+                "twig-language.indentStyle": {
                     "type": "string",
                     "enum": [
                         "space",
@@ -198,57 +198,57 @@
                     "default": "tab",
                     "description": "Choose to indent using tabs or spaces."
                 },
-                "twig-language-2.indentLevel": {
+                "twig-language.indentLevel": {
                     "type": "integer",
                     "default": 0,
                     "description": "How much indentation padding should be applied to beautification? This option is internally used for code that requires switching between libraries."
                 },
-                "twig-language-2.tabSize": {
+                "twig-language.tabSize": {
                     "type": "integer",
                     "default": 0,
                     "description": "0 will default to the editor's tab size. Stores the number of 'inchar' values to comprise a single indentation."
                 },
-                "twig-language-2.methodChain": {
+                "twig-language.methodChain": {
                     "type": "integer",
                     "default": 0,
                     "description": "When to break consecutively chained methods and properties onto separate lines. A negative value disables this option. A value of 0 ensures method chains are never broken."
                 },
-                "twig-language-2.neverFlatten": {
+                "twig-language.neverFlatten": {
                     "type": "boolean",
                     "default": false,
                     "description": "If destructured lists in script should never be flattend."
                 },
-                "twig-language-2.newLine": {
+                "twig-language.newLine": {
                     "type": "boolean",
                     "default": true,
                     "description": "Insert an empty line at the end of output."
                 },
-                "twig-language-2.noCaseIndent": {
+                "twig-language.noCaseIndent": {
                     "type": "boolean",
                     "default": false,
                     "description": "If a case statement should receive the same indentation as the containing switch block."
                 },
-                "twig-language-2.noLeadZero": {
+                "twig-language.noLeadZero": {
                     "type": "boolean",
                     "default": false,
                     "description": "Whether leading 0s in CSS values immediately preceeding a decimal should be removed or prevented."
                 },
-                "twig-language-2.objectSort": {
+                "twig-language.objectSort": {
                     "type": "boolean",
                     "default": false,
                     "description": "Sorts markup attributes and properties by key name in script and style."
                 },
-                "twig-language-2.preserve": {
+                "twig-language.preserve": {
                     "type": "integer",
                     "default": 2,
                     "description": "The maximum number of consecutive empty lines to retain."
                 },
-                "twig-language-2.preserveComment": {
+                "twig-language.preserveComment": {
                     "type": "boolean",
                     "default": false,
                     "description": "Prevent comment reformatting due to option wrap."
                 },
-                "twig-language-2.quoteConvert": {
+                "twig-language.quoteConvert": {
                     "type": "string",
                     "enum": [
                         "double",
@@ -258,37 +258,37 @@
                     "default": "none",
                     "description": "If the quotes of script strings or markup attributes should be converted to single quotes or double quotes."
                 },
-                "twig-language-2.space": {
+                "twig-language.space": {
                     "type": "boolean",
                     "default": true,
                     "description": "Inserts a space following the function keyword for anonymous functions."
                 },
-                "twig-language-2.spaceClose": {
+                "twig-language.spaceClose": {
                     "type": "boolean",
                     "default": false,
                     "description": "Markup self-closing tags end will end with ' />' instead of '/>'."
                 },
-                "twig-language-2.tagMerge": {
+                "twig-language.tagMerge": {
                     "type": "boolean",
                     "default": false,
                     "description": "Allows immediately adjacement start and end markup tags of the same name to be combined into a single self-closing tag."
                 },
-                "twig-language-2.tagSort": {
+                "twig-language.tagSort": {
                     "type": "boolean",
                     "default": false,
                     "description": "Sort child items of each respective markup parent element."
                 },
-                "twig-language-2.ternaryLine": {
+                "twig-language.ternaryLine": {
                     "type": "boolean",
                     "default": true,
                     "description": "If ternary operators in JavaScript ? and : should remain on the same line."
                 },
-                "twig-language-2.unformatted": {
+                "twig-language.unformatted": {
                     "type": "boolean",
                     "default": false,
                     "description": "If markup tags should have their insides preserved. This option is only available to markup and does not support child tokens that require a different lexer."
                 },
-                "twig-language-2.variableList": {
+                "twig-language.variableList": {
                     "type": "string",
                     "enum": [
                         "each",
@@ -298,12 +298,12 @@
                     "default": "none",
                     "description": "If consecutive JavaScript variables should be merged into a comma separated list or if variables in a list should be separated."
                 },
-                "twig-language-2.vertical": {
+                "twig-language.vertical": {
                     "type": "boolean",
                     "default": false,
                     "description": "If lists of assignments and properties should be vertically aligned. This option is not used with the markup lexer."
                 },
-                "twig-language-2.wrap": {
+                "twig-language.wrap": {
                     "type": "integer",
                     "default": 0,
                     "description": "Character width limit before applying word wrap. A 0 value disables this option. A negative value concatenates script strings."
