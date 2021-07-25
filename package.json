@@ -38,7 +38,7 @@
     "activationEvents": [
         "onLanguage:twig"
     ],
-    "main": "./extension/index",
+    "main": "./src/extension",
     "contributes": {
         "languages": [
             {
