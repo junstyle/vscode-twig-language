@@ -77,7 +77,9 @@ function prettyDiff(document, range) {
 
     output = prettydiff();
 
-    output = output.replace(/\s+(\{\{[\s\S]+?\}\})/g, ' $1');
+    output = output.replace(/(?!>\s+)\s+(\{\{[\s\S]+?\}\})/g, ' $1');
+    // output = output.replace(/(\{\{[\s\S]+?\}\})\s+(?!\s+<\/?\w+)/g, '$1 ');
+
     options.end = 0;
     options.start = 0;
 
