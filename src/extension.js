@@ -35,8 +35,8 @@ function prettyDiff(document, range) {
 
     options.source = document.getText(range);
     options.mode = 'beautify';
-    // options.language = 'html';
-    // options.lexer = 'markup';
+    options.language = 'html';
+    options.lexer = 'markup';
     options.brace_line = config.braceLine;
     options.brace_padding = config.bracePadding;
     options.brace_style = config.braceStyle;
