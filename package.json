@@ -51,14 +51,14 @@
           ".twig",
           ".html.twig"
         ],
-        "configuration": "./src/languages/twig.configuration.json"
+        "configuration": "./languages/twig.configuration.json"
       }
     ],
     "grammars": [
       {
         "language": "twig",
         "scopeName": "text.html.twig",
-        "path": "./src/syntaxes/twig.tmLanguage",
+        "path": "./syntaxes/twig.tmLanguage",
         "embeddedLanguages": {
           "source.json": "json",
           "source.css": "css",
@@ -71,7 +71,7 @@
     "snippets": [
       {
         "language": "twig",
-        "path": "./src/snippets/snippets.json"
+        "path": "./snippets/snippets.json"
       }
     ],
     "configuration": {
