@@ -20,7 +20,7 @@
   },
   "icon": "images/icon.png",
   "engines": {
-    "vscode": "^1.30.0"
+    "vscode": "^1.43.0"
   },
   "categories": [
     "Formatters",
