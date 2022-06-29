@@ -33,13 +33,14 @@ export function formatting(document: TextDocument, diagnosticCollection?: Diagno
 		// ]
 		"plugins": [],
 		"htmlWhitespaceSensitivity": "ignore",
-		"twigPrintEmbedElements": false,
+		"embeddedLanguageFormatting": 'auto',
 	};
 	Object.assign(options, resolveConfig.sync(document.uri.fsPath) ?? []);
 	options.twigSingleQuote = true;
 	options.plugins = [djangoPlugin];
 	options.parser = "melody";
 	options.htmlWhitespaceSensitivity = 'ignore';
+	options.embeddedLanguageFormatting = 'off';
 
 	const doc = { text: document.getText() };
 	try {
@@ -89,7 +90,7 @@ function formatStyleAndScript(doc: { text: string }, options: Options) {
 			const node = root.children[i];
 			if (node.type == 'element' && (node.name == 'script' || node.name == 'style')) {
 				if (node.children.length == 0) {
-					continue
+					continue;
 				}
 
 				if (node.prev && node.prev.value) {
@@ -99,20 +100,26 @@ function formatStyleAndScript(doc: { text: string }, options: Options) {
 					}
 				}
 
-				let tagOffset = node.sourceSpan.start.offset;
-				let tagOffset2 = tagOffset;
-				while (tagOffset2 > -1) {
-					if (doc.text[tagOffset2] == "\n") {
-						break;
-					}
-					tagOffset2--;
-				}
-				let tagIndent = doc.text.slice(tagOffset2 + 1, tagOffset).replace(/\S/g, ' ');
-
-				options.parser = node.name == 'script' ? 'babel' : 'css'
 				let child = node.children[0]
-				let ctext = '\n'.repeat(child.sourceSpan.start.line + incrLines) + ' '.repeat(child.sourceSpan.start.col) + child.value; //keep the line and column for error tips
-				ctext = eol + format(ctext, options).trim().split(eol).map(line => tagIndent + indent + line).join(eol) + eol + tagIndent;
+				let ctext = child.value
+				if (ctext.trim()) {
+					options.parser = node.name == 'script' ? 'babel' : 'css'
+
+					let tagOffset = node.sourceSpan.start.offset;
+					let tagOffset2 = tagOffset;
+					while (tagOffset2 > -1) {
+						if (doc.text[tagOffset2 + incrChars] == "\n") {
+							break;
+						}
+						tagOffset2--;
+					}
+					let tagIndent = doc.text.slice(tagOffset2 + 1 + incrChars, tagOffset + incrChars).replace(/\S/g, ' ');
+
+					ctext = '\n'.repeat(child.sourceSpan.start.line + incrLines) + ' '.repeat(child.sourceSpan.start.col) + child.value; //keep the line and column for error tips
+					ctext = eol + format(ctext, options).trim().split(eol).map(line => tagIndent + indent + line).join(eol) + eol + tagIndent;
+				} else {
+					ctext = ''
+				}
 				const start = child.sourceSpan.start.offset;
 				doc.text = doc.text.slice(0, start + incrChars) + ctext + doc.text.slice(start + child.value.length + incrChars);
 				incrChars += ctext.length - child.value.length;
