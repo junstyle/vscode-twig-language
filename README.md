@@ -1,69 +1,41 @@
-<a href="https://marketplace.visualstudio.com/items?itemName=mblode.twig-language-2">
-  <img src="https://github.com/mblode/vscode-twig-language-2/blob/master/images/icon.png?raw=true" alt="" width=100 height=100>
-</a>
 
-<h1>VS Code Twig Language 2 👋</h1>
+# VS Code Twig Language 👋
 
-<p>
-  <img src="https://img.shields.io/badge/version-0.8.8-blue.svg?cacheSeconds=2592000" />
-  <a href="https://github.com/mblode/vscode-twig-language-2/graphs/commit-activity">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/mblode/vscode-twig-language-2/blob/master/LICENSE.md">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
-  </a>
-</p>
+*this extension inherited from <https://github.com/mblode/vscode-twig-language-2>*
+
+## Features
 
 - Syntax highlighting
 - Snippets
 - Emmet
-- Pretty Diff 3 Formatting
 - Hover
+- Formatted by **prettier**, can automatic search prettier config file in the dirs, such as .prettierrc, .prettier.json...;
 
-## What has changed since version 1?
+## Default file associated to django template support
 
-This extension does **not** have HTML Intellisense. If you need HTML Intellisense (which can be quite useful), please download my other Twig Language extension: https://github.com/mblode/vscode-twig-language.
-
-I have created a new extension to fix the issues that I (and all of you) were having with file association, commenting and VS Code UI issues.
-
-Simply add these lines to your VS Code settings to get emmet working and also to associate HTML files as twig syntax.
-
+```text
+.twig
+.html.twig
 ```
-"files.associations": {
-    "*.html": "twig"
-},
+
+## Add your file associations to django template support
+
+```json
+  "files.associations": {
+    "**/views/**/*.html": "twig",
+    "*.tpl": "twig"
+  },
+```
+
+## Get emmet working
+
+```json
 "emmet.includeLanguages": {
     "twig": "html"
 },
 ```
 
-## Installation
-
-Install through Visual Studio Code extensions. Search for `Twig Language 2`
-
-[Visual Studio Code Market Place: Twig Language 2](https://marketplace.visualstudio.com/items?itemName=mblode.twig-language-2)
-
-## Documentation
-
-Twig Language 2 is a Visual Studio Code extension that provides snippets, syntax highlighting, hover, and formatting for the Twig file format.
-
-### Twig syntax highlighting and language support
-
-This extension provides language support for the Twig syntax.
-
-### Code formatter/beautifier for Twig files
-
-Using PrettyDiff, this extension implements the only working code formatter for Twig files in VS Code.
-
-### Information about Twig code on hover
-
-VS Code Twig language 2 shows information about the symbol/object that's below the mouse cursor when you hover within Twig files.
-
-### Craft CMS/Twig code snippets
-
-Adds a set of Craft CMS/Twig code snippets to use in your Twig templates.
-
-### Generic Triggers
+## Generic Triggers for snippets
 
 ```twig
 
@@ -204,22 +176,3 @@ info            All craft.users properties and template tags
 info            All craft globals (site info, date, users, template tags)
 
 ```
-
-## Author
-
-👤 **Matthew Blode**
-
-* Github: [@mblode](https://github.com/mblode)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome !<br />Feel free to check [issues page](https://github.com/mblode/vscode-twig-language-2/issues).
-
-## Show your support
-
-Give a ⭐️ if this project helped you !
-
-## 📝 License
-
-Copyright © 2019 [Matthew Blode](https://github.com/mblode).<br />
-This project is [MIT](https://github.com/mblode/vscode-twig-language-2/blob/master/LICENSE.md) licensed.

@@ -1,154 +1,107 @@
-import vscode from 'vscode'
-import prettydiff from 'prettydiff'
-import snippetsArr from './hover/filters.json'
-import functionsArr from './hover/functions.json'
-import twigArr from './hover/twig.json'
+import vscode, { commands, CompletionList, ExtensionContext, Hover, languages, TextEdit, Range } from "vscode";
+import snippetsArr from "./hover/filters.json";
+import functionsArr from "./hover/functions.json";
+import twigArr from "./hover/twig.json";
+import { formatting } from "./formatting";
+import { clearVirtualDocumentContents, createVirtualDoc, registerTextDocumentEvents } from "./virtualDocument";
 
-const editor = vscode.workspace.getConfiguration('editor');
-const config = vscode.workspace.getConfiguration('twig-language');
+const config = vscode.workspace.getConfiguration("twig-language");
 
 function createHover(snippet, type) {
-    const example = typeof snippet.example == 'undefined' ? '' : snippet.example
-    const description = typeof snippet.description == 'undefined' ? '' : snippet.description
-    return new vscode.Hover({
-        language: type,
-        value: description + '\n\n' + example,
-    });
-}
-
-function prettyDiff(document, range) {
-    const result = [];
-    let output = "";
-    let options = prettydiff.options;
-
-    let tabSize = editor.tabSize;
-    let indentChar = " ";
-
-    if (config.tabSize > 0) {
-        tabSize = config.tabSize;
-    }
-
-    if (config.indentStyle == "tab") {
-        tabSize = 0;
-        indentChar = "\t";
-    }
-
-    options.source = document.getText(range);
-    options.mode = 'beautify';
-    options.language = 'html';
-    options.lexer = 'markup';
-    options.brace_line = config.braceLine;
-    options.brace_padding = config.bracePadding;
-    options.brace_style = config.braceStyle;
-    options.braces = config.braces;
-    options.comment_line = config.commentLine;
-    options.comments = config.comments;
-    options.compressed_css = config.compressedCss;
-    options.correct = config.correct;
-    options.cssInsertLines = config.cssInsertLines;
-    options.else_line = config.elseLine;
-    options.end_comma = config.endComma;
-    options.force_attribute = config.forceAttribute;
-    options.force_indent = config.forceIndent;
-    options.format_array = config.formatArray;
-    options.format_object = config.formatObject;
-    options.function_name = config.functionName;
-    options.indent_level = config.indentLevel;
-    options.indent_char = indentChar;
-    options.indent_size = tabSize;
-    options.method_chain = config.methodChain;
-    options.never_flatten = config.neverFlatten;
-    options.new_line = config.newLine;
-    options.no_case_indent = config.noCaseIndent;
-    options.no_lead_zero = config.noLeadZero;
-    options.object_sort = config.objectSort;
-    options.preserve = config.preserve;
-    options.preserve_comment = config.preserveComment;
-    options.quote_convert = config.quoteConvert;
-    options.space = config.space;
-    options.space_close = config.spaceSlose;
-    options.tag_merge = config.tagMerge;
-    options.tag_sort = config.tagSort;
-    options.ternary_line = config.ternaryLine;
-    options.unformatted = config.unformatted;
-    options.variable_list = config.variableList;
-    options.vertical = config.vertical;
-    options.wrap = config.wrap;
-
-    output = prettydiff();
-
-    output = output.replace(/(?!>\s+)\s+(\{\{[\s\S]+?\}\})/g, ' $1');
-    // output = output.replace(/(\{\{[\s\S]+?\}\})\s+(?!\s+<\/?\w+)/g, '$1 ');
-
-    options.end = 0;
-    options.start = 0;
-
-    result.push(vscode.TextEdit.replace(range, output));
-    return result;
+  const example = typeof snippet.example == "undefined" ? "" : snippet.example;
+  const description = typeof snippet.description == "undefined" ? "" : snippet.description;
+  return new vscode.Hover({
+    language: type,
+    value: description + "\n\n" + example
+  });
 }
 
 function activate(context) {
-    const active = vscode.window.activeTextEditor
-    if (!active || !active.document) return
+  const active = vscode.window.activeTextEditor;
+  if (!active || !active.document) return;
 
-    registerDocType('twig');
+  registerDocType("twig");
+  registerTextDocumentEvents(context, ["twig"]);
 
-    function registerDocType(type) {
-        if (config.hover === true) {
-            context.subscriptions.push(vscode.languages.registerHoverProvider(type, {
-                provideHover(document, position) {
-                    const range = document.getWordRangeAtPosition(position);
-                    const word = document.getText(range);
+  const diagnosticCollection = languages.createDiagnosticCollection("twig");
+  context.subscriptions.push(diagnosticCollection);
 
-                    for (const snippet in snippetsArr) {
-                        if (snippetsArr[snippet].prefix == word || snippetsArr[snippet].hover == word) {
-                            return createHover(snippetsArr[snippet], type)
-                        }
-                    }
+  function registerDocType(type) {
+    if (config.hover === true) {
+      context.subscriptions.push(
+        vscode.languages.registerHoverProvider(type, {
+          async provideHover(document, position) {
+            const range = document.getWordRangeAtPosition(position);
+            const word = document.getText(range);
 
-                    for (const snippet in functionsArr) {
-                        if (functionsArr[snippet].prefix == word || functionsArr[snippet].hover == word) {
-                            return createHover(functionsArr[snippet], type)
-                        }
-                    }
+            for (const snippet in snippetsArr) {
+              if (snippetsArr[snippet].prefix == word || snippetsArr[snippet].hover == word) {
+                return createHover(snippetsArr[snippet], type);
+              }
+            }
 
-                    for (const snippet in twigArr) {
-                        if (twigArr[snippet].prefix == word || twigArr[snippet].hover == word) {
-                            return createHover(twigArr[snippet], type)
-                        }
-                    }
-                },
-            }));
-        }
+            for (const snippet in functionsArr) {
+              if (functionsArr[snippet].prefix == word || functionsArr[snippet].hover == word) {
+                return createHover(functionsArr[snippet], type);
+              }
+            }
 
-        if (config.formatting === true) {
-            context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(type, {
-                provideDocumentFormattingEdits: function (document) {
-                    const start = new vscode.Position(0, 0)
+            for (const snippet in twigArr) {
+              if (twigArr[snippet].prefix == word || twigArr[snippet].hover == word) {
+                return createHover(twigArr[snippet], type);
+              }
+            }
 
-                    const end = new vscode.Position(document.lineCount - 1, document.lineAt(document.lineCount - 1).text.length);
-
-                    const rng = new vscode.Range(start, end)
-                    return prettyDiff(document, rng);
-                },
-            }));
-
-            context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(type, {
-                provideDocumentRangeFormattingEdits: function (document, range) {
-                    let end = range.end
-
-                    if (end.character === 0) {
-                        end = end.translate(-1, Number.MAX_VALUE);
-                    } else {
-                        end = end.translate(0, Number.MAX_VALUE);
-                    }
-
-                    const rng = new vscode.Range(new vscode.Position(range.start.line, 0), end)
-                    return prettyDiff(document, rng);
-                },
-            }));
-        }
+            const vdocUri = createVirtualDoc(document);
+            const hs = await commands.executeCommand("vscode.executeHoverProvider", vdocUri, position);
+            return hs?.[0];
+          }
+        })
+      );
     }
+
+    if (config.formatting === true) {
+      context.subscriptions.push(
+        vscode.languages.registerDocumentFormattingEditProvider(type, {
+          provideDocumentFormattingEdits: async (document, options, token) => {
+            const otext = document.getText();
+            if (!otext) {
+              return;
+            }
+            let newDoc = document;
+
+            const text = formatting(newDoc, diagnosticCollection);
+            if (text && text != otext) {
+              const range = new Range(document.positionAt(0), document.positionAt(otext.length));
+              return [new TextEdit(range, text)];
+            } else {
+              return [];
+            }
+          }
+        })
+      );
+
+      context.subscriptions.push(
+        languages.registerCompletionItemProvider(
+          type,
+          {
+            provideCompletionItems: async (document, position, token, context) => {
+              const vdocUri = createVirtualDoc(document);
+              return await commands.executeCommand("vscode.executeCompletionItemProvider", vdocUri, position, context.triggerCharacter);
+            }
+          },
+          ".",
+          "(",
+          ":",
+          "<"
+        )
+      );
+    }
+  }
 }
 
 exports.activate = activate;
+exports.deactivate = function () {
+  clearVirtualDocumentContents();
+  return undefined;
+};
