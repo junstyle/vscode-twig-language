@@ -315,7 +315,7 @@
     "hoverProvider": "true"
   },
   "scripts": {
-    "vscode:prepublish": "npm update",
+    "vscode:prepublish": "npm run build",
     "esbuild-base": "rimraf out && esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --external:prettier  --format=cjs --platform=node",
     "build": "npm run -S esbuild-base -- --minify",
     "watch": "npm run -S esbuild-base -- --sourcemap --watch"
