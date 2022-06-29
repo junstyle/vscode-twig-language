@@ -7,6 +7,9 @@ tsconfig.json
 .gitattributes
 .gitignore
 src/
+!src/languages/
+!src/snippets/
+!src/syntaxes/
 node_modules/
 !node_modules/prettier/index.js
 !node_modules/prettier/doc.js

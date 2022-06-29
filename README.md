@@ -11,14 +11,14 @@
 - Hover
 - Formatted by **prettier**, can automatic search prettier config file in the dirs, such as .prettierrc, .prettier.json...;
 
-## Default file associated to django template support
+## Default file associated to twig template support
 
 ```text
 .twig
 .html.twig
 ```
 
-## Add your file associations to django template support
+## Add your file associations to twig template support
 
 ```json
   "files.associations": {
