@@ -1,8 +1,8 @@
 {
   "name": "twig-language",
   "displayName": "Twig Language",
-  "description": "Snippets, Syntax Highlighting, Hover, and Formatting for Twig",
-  "version": "0.10.7",
+  "description": "📍formatter, Syntax Highlighting, Hover, Snippets and Formatting for Twig",
+  "version": "0.10.8",
   "publisher": "junstyle",
   "license": "MIT",
   "author": {
