@@ -220,7 +220,7 @@
                 <key>2</key>
                 <dict>
                     <key>name</key>
-                    <string>entity.name.tag.style.html</string>
+                    <string>entity.name.tag.html</string>
                 </dict>
                 <key>3</key>
                 <dict>
@@ -278,7 +278,7 @@
                 <key>2</key>
                 <dict>
                     <key>name</key>
-                    <string>entity.name.tag.script.html</string>
+                    <string>entity.name.tag.html</string>
                 </dict>
             </dict>
             <key>end</key>
@@ -312,7 +312,7 @@
                         <key>2</key>
                         <dict>
                             <key>name</key>
-                            <string>entity.name.tag.script.html</string>
+                            <string>entity.name.tag.html</string>
                         </dict>
                     </dict>
                     <key>end</key>
