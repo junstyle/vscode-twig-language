@@ -1,7 +1,7 @@
 import { format, Options, ParserOptions, resolveConfig } from 'prettier';
-import { Diagnostic, DiagnosticCollection, Range, TextDocument } from 'vscode';
-import * as htmlPlugin from 'prettier/parser-html';
 import * as djangoPlugin from 'prettier-plugin-django';
+import * as htmlPlugin from 'prettier/parser-html';
+import { Diagnostic, DiagnosticCollection, Range, TextDocument } from 'vscode';
 
 export function formatting(document: TextDocument, diagnosticCollection?: DiagnosticCollection): string {
 	const options = {
@@ -49,7 +49,7 @@ export function formatting(document: TextDocument, diagnosticCollection?: Diagno
 			throw new Error('django-html: formatting failed');
 		}
 
-		//if use `prettier-plugin-django`, can't get the error tips, so don't use it
+		//if use `prettier-plugin-django`, can't get the error tips, so not use it
 		formatStyleAndScript(doc, options as Options)
 		diagnosticCollection?.clear()
 	} catch (error) {

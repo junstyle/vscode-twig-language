@@ -35,6 +35,25 @@
 },
 ```
 
+## How to ignore code, use `prettier-ignore` and `prettier-ignore-start`
+
+When you are not happy with how Prettier formats a certain element or section in the code, you can tell it to leave it in peace:
+
+```
+{# prettier-ignore #}
+<div   class="weird-formatting"   >This will not be re-formatted</div>
+
+<div   class="weird-formatting"   >But this will be</div>
+```
+
+You can also tell Prettier to leave entire regions as they are:
+
+```
+{# prettier-ignore-start #}
+    ...
+{# prettier-ignore-end #}
+```
+
 ## If you love this extension, you could
 
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >](https://www.buymeacoffee.com/junstyle)
