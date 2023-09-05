@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ['master']
 #   pull_request:
 #     branches: [ "master" ]
 
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          # cache: "npm"
       - run: npm install
       - run: npm install -g vsce
       - run: vsce publish -p ${{ secrets.VSC_TOKEN }}

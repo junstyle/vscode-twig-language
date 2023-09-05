@@ -89,15 +89,15 @@
     "build": "npm run -S esbuild-base -- --minify",
     "watch": "npm run -S esbuild-base -- --sourcemap --watch"
   },
-  "devDependencies": {
-    "@types/node": "^16.18.48",
-    "@types/prettier": "^2.7.3",
-    "@types/vscode": "^1.81.0",
-    "esbuild": "^0.14.54",
-    "rimraf": "^3.0.2"
-  },
   "dependencies": {
     "prettier": "^2.8.8",
     "prettier-plugin-django": "^0.5.8"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.48",
+    "@types/prettier": "^2.7.3",
+    "@types/vscode": "1.43.0",
+    "esbuild": "^0.14.54",
+    "rimraf": "^3.0.2"
   }
 }
