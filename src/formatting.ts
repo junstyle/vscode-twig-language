@@ -2,6 +2,7 @@ import { format, Options, ParserOptions, resolveConfig } from 'prettier';
 import * as djangoPlugin from 'prettier-plugin-django';
 import * as htmlPlugin from 'prettier/parser-html';
 import { Diagnostic, DiagnosticCollection, Range, TextDocument } from 'vscode';
+// import * as djangoPlugin from "D:/git/prettier-plugin-django/out";
 
 export function formatting(document: TextDocument, diagnosticCollection?: DiagnosticCollection): string {
 	const options = {
@@ -28,10 +29,9 @@ export function formatting(document: TextDocument, diagnosticCollection?: Diagno
 		// 	}
 		// ],
 		"parser": "melody",
-		// "plugins": [
-		// 	"D:/npm/global/node_modules/prettier-plugin-django"
-		// ]
-		"plugins": [],
+		"plugins": [
+			"D:/npm/global/node_modules/prettier-plugin-django"
+		],
 		"htmlWhitespaceSensitivity": "ignore",
 		"embeddedLanguageFormatting": 'auto',
 	};
