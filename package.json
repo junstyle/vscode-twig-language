@@ -2,7 +2,7 @@
   "name": "twig-language",
   "displayName": "Twig Language",
   "description": "📍formatter, Syntax Highlighting, Hover, Snippets and Formatting for Twig",
-  "version": "0.10.13",
+  "version": "0.10.15",
   "publisher": "junstyle",
   "license": "MIT",
   "author": {
@@ -91,7 +91,7 @@
   },
   "dependencies": {
     "prettier": "^2.8.8",
-    "prettier-plugin-django": "^0.5.9"
+    "prettier-plugin-django": "^0.5.15"
   },
   "devDependencies": {
     "@types/node": "^16.18.52",
